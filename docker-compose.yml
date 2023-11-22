@@ -1,0 +1,45 @@
+version: '3.3'
+
+services:
+  postgres:
+    image: postgres
+    container_name: PostgresCont
+    restart: always
+    environment:
+      - DATABASE_HOST=127.0.0.1
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=my_store
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment: 
+      - PGADMIN_DEFAULT_EMAIL=admin@mail.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports: 
+      - 5050:80
+
+  mysqldb:
+    image: mysql
+    container_name: mysqlCont
+    environment:
+      MYSQL_USER: root 
+      MYSQL_ROOT_PASSWORD: M4st3rdb4
+      MYSQL_PASSWORD: root
+      MYSQL_DB: my_store
+    ports: 
+      - 3306:3306
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      MYSQL_ROOT_PASSWORD: M4st3rdb4
+      PMA_HOST: mysqldb
+    ports:
+      - 8080:80
